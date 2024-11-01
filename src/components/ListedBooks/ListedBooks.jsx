@@ -8,10 +8,11 @@ import Book from '../Book/Book';
 const ListedBooks = () => {
     const [readList, setReadList] = useState([]);
     const [wishList, setWishList] = useState([]);
-    const allBooks = useLoaderData(); 
+    const [sort, setSort] = useState('');
+    const allBooks = useLoaderData();
     // Ideally we will directly get the read book list from the database
 
-    useEffect(() =>{
+    useEffect(() => {
         const storedReadList = getStoredReadList();
         const storedReadListInt = storedReadList.map(id => parseInt(id));
         // worst way
@@ -23,7 +24,7 @@ const ListedBooks = () => {
         setReadList(readBookList);
 
     }, [])
-    useEffect(() =>{
+    useEffect(() => {
         const storedWishList = getStoredWishList();
         const storedWishListInt = storedWishList.map(id => parseInt(id));
         // worst way
@@ -34,11 +35,31 @@ const ListedBooks = () => {
 
         setWishList(wishBookList);
 
-    }, [])
+    }, []);
+
+    const handleSort = sortType =>{
+        setSort(sortType);
+
+        if(sortType === 'Number of pages'){
+            const sortedReadList = [...readList].sort((a, b) => a.totalPages - b.totalPages);
+            setReadList(sortedReadList);
+        }
+        if(sortType === 'Ratings'){
+            const sortedReadList = [...readList].sort((a, b) => a.rating - b.rating);
+            setReadList(sortedReadList);
+        }
+    }
 
     return (
         <div>
             <h3 className='text-3xl my-3'>Listed Books</h3>
+            <div className="dropdown">
+                <div tabIndex={0} role="button" className="btn m-1">{sort ? `Sort by: ${sort}` : 'Sort by'}</div>
+                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                    <li onClick={()=> handleSort('Ratings')}><a>Ratings</a></li>
+                    <li onClick={()=> handleSort('Number of pages')}><a>Number of pages</a></li>
+                </ul>
+            </div>
             <Tabs>
                 <TabList>
                     <Tab>Read Books</Tab>
