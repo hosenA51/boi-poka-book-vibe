@@ -1,9 +1,10 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
 
     const links = <>
-        <li><a>Home</a></li>
+        <li><NavLink>Home</NavLink></li>
         <li><a>Listed Books</a></li>
         <li><a>Pages to Read</a></li>
     </>
@@ -32,15 +33,16 @@ const NavBar = () => {
                         {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">Book Vibe</a>
+                <a className="btn btn-ghost text-2xl font-bold">Book Vibe</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     {links}
                 </ul>
             </div>
-            <div className="navbar-end">
-                <a className="btn">Button</a>
+            <div className="navbar-end gap-4">
+                <a className="btn bg-[#23BE0A] font-semibold text-white">Sign In</a>
+                <a className="btn bg-[#59C6D2] font-semibold text-white">Sign Up</a>
             </div>
         </div>
     );
